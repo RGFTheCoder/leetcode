@@ -1,7 +1,7 @@
 #pragma GCC optimize("O3", "unroll-loops")
 #pragma GCC option("arch=native", "tune=native")
 #include <ios>
-auto _ = std::ios::sync_with_stdio(false);
+// auto _ = std::ios::sync_with_stdio(false);
 
 #include <algorithm>
 #include <vector>
@@ -11,20 +11,16 @@ public:
   int maxProfit(std::vector<int> &prices) {
     int price_size = prices.size();
 
-    std::vector<int> highest;
-    highest.reserve(price_size - 1);
-    highest.push_back(prices.back());
-    for (int i = price_size - 2; i >= 0; --i) {
-      highest.push_back(std::max(highest.back(), prices[i]));
+    int lower_buy = 0;
+    int profit = 0;
+
+    for (int i = 1; i < price_size; ++i) {
+      if (prices[lower_buy] >= prices[i])
+        lower_buy = i;
+      else
+        profit = std::max(profit, prices[i] - prices[lower_buy]);
     }
 
-    int max_profit{0};
-
-    for (int i = 0; i < price_size - 1; ++i) {
-      max_profit =
-          std::max(max_profit, highest[price_size - 2 - i] - prices[i]);
-    }
-
-    return max_profit;
+    return profit;
   }
 };
