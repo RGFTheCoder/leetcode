@@ -1,7 +1,9 @@
 #pragma GCC optimize("O3", "unroll-loops")
+#pragma GCC option("arch=native", "tune=native")
+#include <ios>
+auto _ = std::ios::sync_with_stdio(false);
 
 #include <algorithm>
-#include <ios>
 #include <iostream>
 #include <numeric>
 #include <utility>
@@ -47,10 +49,6 @@ class Solution {
 public:
   int lenOfVDiagonal(std::vector<std::vector<int>> &grid_nested) {
     grid = Grid(grid_nested);
-
-    // Decouple stdio from iostreams.
-    // Faster, but race condition occurs if you use both.
-    std::ios::sync_with_stdio(false);
 
     memoization_table.assign(grid.width * grid.height * 16, -1);
 
